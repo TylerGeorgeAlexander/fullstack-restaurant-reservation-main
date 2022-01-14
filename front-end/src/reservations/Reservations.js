@@ -1,8 +1,13 @@
 import Form from "./Form";
+import { useHistory } from "react-router-dom";
 
 export default function Reservations() {
-  function cancel() {
-    console.log("cancel test");
+  const history = useHistory();
+
+  function cancel(event) {
+    // console.log("cancel test");
+    event.preventDefault();
+    history.go(-1);
   }
   function submit() {
     console.log("submit test");
