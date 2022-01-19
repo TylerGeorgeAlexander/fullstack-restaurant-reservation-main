@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReservationForm from "./ReservationForm";
 import { useHistory } from "react-router-dom";
-import { today } from "../utils/date-time";
+// import { today } from "../utils/date-time";
 import { createReservation } from "../utils/api";
 
 export default function ReservationCreate() {
@@ -28,9 +28,9 @@ export default function ReservationCreate() {
   function submitHandler(event) {
     // console.log("submit test");
     event.preventDefault();
-    console.log(reservation)
+    // console.log(reservation)
     createReservation(reservation).then(() => {
-      history.push("/");
+      history.push(`/dashboard/${reservation.reservation_date}`);
     });
   }
 
