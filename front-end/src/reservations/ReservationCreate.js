@@ -30,7 +30,7 @@ export default function ReservationCreate() {
     event.preventDefault();
     // console.log(reservation)
     createReservation(reservation).then(() => {
-      history.push(`/dashboard/${reservation.reservation_date}`);
+      history.push(`/dashboard/date?date=${reservation.reservation_date}`);
     });
   }
 
