@@ -10,7 +10,8 @@ export default function Reservations() {
     history.go(-1);
   }
   function submit() {
-    console.log("submit test");
+    // console.log("submit test");
+    
   }
   return <Form onCancel={cancel} onSubmit={submit} />;
 }
