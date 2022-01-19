@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorAlert from "../layout/ErrorAlert";
 
 export default function ReservationForm({
   cancelHandler,
@@ -6,10 +7,11 @@ export default function ReservationForm({
   changeHandler,
   reservation,
   setReservation,
+  error,
 }) {
-
   return (
     <div>
+      <ErrorAlert error={error} />
       <form className="form-inline py-3" onSubmit={submitHandler}>
         <div className="col">
           <div className="row">

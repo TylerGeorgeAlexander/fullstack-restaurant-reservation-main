@@ -15,6 +15,7 @@ export default function ReservationCreate() {
   };
 
   const [reservation, setReservation] = useState(initialState);
+  const [error, setError] = useState(null);
 
   const history = useHistory();
 
@@ -23,11 +24,12 @@ export default function ReservationCreate() {
     event.preventDefault();
     history.push("/");
   }
+
   function submitHandler(event) {
     // console.log("submit test");
     event.preventDefault();
     createReservation(reservation).then(() => {
-      history.push("/");
+      history.push("/").catch(setError);
     });
   }
 
@@ -45,6 +47,7 @@ export default function ReservationCreate() {
       changeHandler={changeHandler}
       reservation={reservation}
       setReservation={setReservation}
+      error={error}
     />
   );
 }
