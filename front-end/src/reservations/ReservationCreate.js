@@ -9,7 +9,7 @@ export default function ReservationCreate() {
     first_name: "",
     last_name: "",
     mobile_number: "",
-    reservation_date: today(),
+    reservation_date: "",
     reservation_time: "",
     people: "1",
   };
@@ -28,8 +28,9 @@ export default function ReservationCreate() {
   function submitHandler(event) {
     // console.log("submit test");
     event.preventDefault();
+    console.log(reservation)
     createReservation(reservation).then(() => {
-      history.push("/").catch(setError);
+      history.push("/");
     });
   }
 
