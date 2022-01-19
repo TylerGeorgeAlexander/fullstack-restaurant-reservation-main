@@ -1,31 +1,12 @@
-import React, { useState } from "react";
-import { today } from "../utils/date-time";
+import React from "react";
+
 export default function Form({
-  onSubmit,
-  onCancel,
-  initialState = {
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
-    reservation_date: today(),
-    reservation_time: "",
-    people: "1",
-  },
+  cancelHandler,
+  submitHandler,
+  changeHandler,
+  reservation,
+  setReservation,
 }) {
-  const [reservation, setReservation] = useState(initialState);
-
-  function changeHandler({ target: { name, value } }) {
-    setReservation((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }
-
-  function submitHandler(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    onSubmit(reservation);
-  }
 
   return (
     <div>
@@ -95,7 +76,7 @@ export default function Form({
             <button
               type="button"
               className="btn btn-warning"
-              onClick={onCancel}
+              onClick={cancelHandler}
             >
               Cancel
             </button>
