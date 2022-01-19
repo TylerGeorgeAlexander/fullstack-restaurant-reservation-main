@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Form from "./Form";
+import ReservationForm from "./ReservationForm";
 import { useHistory } from "react-router-dom";
 import { today } from "../utils/date-time";
+import { createReservation } from "../utils/api";
 
 export default function ReservationCreate() {
   let initialState = {
@@ -38,7 +39,7 @@ export default function ReservationCreate() {
   }
 
   return (
-    <Form
+    <ReservationForm
       cancelHandler={cancelHandler}
       submitHandler={submitHandler}
       changeHandler={changeHandler}

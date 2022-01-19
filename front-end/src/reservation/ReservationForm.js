@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Form({
+export default function ReservationForm({
   cancelHandler,
   submitHandler,
   changeHandler,
@@ -36,7 +36,7 @@ export default function Form({
             <p>Mobile Number</p>
             <input
               name="mobile_number"
-              type="tel"
+              type="text"
               onChange={changeHandler}
               required
               value={reservation.mobile_number}
