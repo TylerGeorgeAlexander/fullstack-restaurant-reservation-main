@@ -11,7 +11,7 @@ export default function ReservationCreate() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: "1",
+    people: 1,
   };
 
   const [reservation, setReservation] = useState(initialState);
