@@ -5,7 +5,8 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
  * List handler for reservation resources
  */
 async function list(req, res) {
-  const data = await service.list();
+  const { date } = req.query;
+  const data = await service.list(date);
   res.json({
     data,
   });
@@ -58,7 +59,10 @@ function hasReservationDate(req, res, next) {
   if (reservationDate && dateFormat.test(reservationDate)) {
     return next();
   }
-  next({ status: 400, message: "reservation_date is missing, empty, or in the wrong format" });
+  next({
+    status: 400,
+    message: "reservation_date is missing, empty, or in the wrong format",
+  });
 }
 
 function hasReservationTime(req, res, next) {
@@ -67,7 +71,10 @@ function hasReservationTime(req, res, next) {
   if (reservationTime && timeFormat.test(reservationTime)) {
     return next();
   }
-  next({ status: 400, message: "reservation_time is missing, empty, or in the wrong format" });
+  next({
+    status: 400,
+    message: "reservation_time is missing, empty, or in the wrong format",
+  });
 }
 
 function hasPeople(req, res, next) {
@@ -75,7 +82,10 @@ function hasPeople(req, res, next) {
   if (people && typeof people === "number") {
     return next();
   }
-  next({ status: 400, message: "people is missing, empty, or not a number typeof" });
+  next({
+    status: 400,
+    message: "people is missing, empty, or not a number typeof",
+  });
 }
 
 module.exports = {
