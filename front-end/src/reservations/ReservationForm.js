@@ -8,6 +8,7 @@ export default function ReservationForm({
   reservation,
   setReservation,
   error,
+  changeNumberHandler,
 }) {
   return (
     <div>
@@ -69,7 +70,7 @@ export default function ReservationForm({
             <input
               name="people"
               type="number"
-              onChange={changeHandler}
+              onChange={changeNumberHandler}
               required
               value={reservation.people}
             />

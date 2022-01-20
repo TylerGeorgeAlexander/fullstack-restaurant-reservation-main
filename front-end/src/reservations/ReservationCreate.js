@@ -41,6 +41,13 @@ export default function ReservationCreate() {
     }));
   }
 
+  function changeNumberHandler({ target: { name, value } }) {
+    setReservation((prevState) => ({
+      ...prevState,
+      [name]: Number(value),
+    }));
+  }
+
   return (
     <ReservationForm
       cancelHandler={cancelHandler}
@@ -49,6 +56,7 @@ export default function ReservationCreate() {
       reservation={reservation}
       setReservation={setReservation}
       error={error}
+      changeNumberHandler={changeNumberHandler}
     />
   );
 }

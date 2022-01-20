@@ -33,6 +33,10 @@ function Routes() {
       <Route exact path="/dashboard">
         <Dashboard date={date || today()} />
       </Route>
+      <Route  path="/dashboard/:date">
+        <Dashboard date={date || today()} />
+        {console.log(date)}
+      </Route>
       <Route>
         <NotFound />
       </Route>
