@@ -113,7 +113,7 @@ function closedTuesday(req, res, next) {
 
 function hasPastDate(req, res, next) {
   const date = req.body.data.reservation_date;
-  let today = new Date().toISOString().slice(0, 10)
+  let today = new Date().toISOString().slice(0, 10);
 
   // console.log("req", typeof date, date);
   // console.log("today", typeof today, today);
@@ -124,6 +124,19 @@ function hasPastDate(req, res, next) {
   next({
     status: 400,
     message: "reservation occurs in the past, it needs to be in the future",
+  });
+}
+
+function hoursOpen(req, res, next) {
+  let currentTime = +req.body.data.reservation_time.replace(/:/g, "");
+  console.log(currentTime, typeof currentTime);
+  // Compare the current time (converted to a number) to see if it is within business hours (9:30am to 9:30pm)
+  if (currentTime > 930 && currentTime < 2130) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Reservation times must be between 9:30am to 9:30pm",
   });
 }
 
@@ -138,6 +151,7 @@ module.exports = {
     hasPeople,
     closedTuesday,
     hasPastDate,
+    hoursOpen,
     asyncErrorBoundary(create),
   ],
   list: asyncErrorBoundary(list),
