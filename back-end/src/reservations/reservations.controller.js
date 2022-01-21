@@ -88,6 +88,45 @@ function hasPeople(req, res, next) {
   });
 }
 
+// US-02 returns 400 if reservation_date falls on a tuesday
+// this function may need to be before the past date test
+
+function closedTuesday(req, res, next) {
+  // grab the request body date
+  const date = req.body.data.reservation_date;
+  // convert into date format
+  let newDate = new Date(date);
+
+  // console.log(newDate.getDay(), typeof newDate.getDay())
+
+  // .getDay converts date format into a numerical day, where Tuesday is 2
+  if (newDate.getDay() !== 1) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "closed on Tuesdays",
+  });
+}
+
+// US-02 returns 400 if reservation occurs in the past
+
+function hasPastDate(req, res, next) {
+  const date = req.body.data.reservation_date;
+  let today = new Date().toISOString().slice(0, 10)
+
+  // console.log("req", typeof date, date);
+  // console.log("today", typeof today, today);
+
+  if (date >= today) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "reservation occurs in the past, it needs to be in the future",
+  });
+}
+
 module.exports = {
   create: [
     hasData,
@@ -97,6 +136,8 @@ module.exports = {
     hasReservationDate,
     hasReservationTime,
     hasPeople,
+    closedTuesday,
+    hasPastDate,
     asyncErrorBoundary(create),
   ],
   list: asyncErrorBoundary(list),
