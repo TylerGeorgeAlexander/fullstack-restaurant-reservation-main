@@ -79,12 +79,12 @@ function hasReservationTime(req, res, next) {
 
 function hasPeople(req, res, next) {
   const people = req.body.data.people;
-  if (people && typeof people === "number") {
+  if (people && typeof people === "number" && people > 0) {
     return next();
   }
   next({
     status: 400,
-    message: "people is missing, empty, or not a number typeof",
+    message: "people is missing, empty, negative, or not a number typeof",
   });
 }
 
