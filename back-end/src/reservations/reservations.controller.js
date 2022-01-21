@@ -129,9 +129,10 @@ function hasPastDate(req, res, next) {
 
 function hoursOpen(req, res, next) {
   let currentTime = +req.body.data.reservation_time.replace(/:/g, "");
-  console.log(currentTime, typeof currentTime);
-  // Compare the current time (converted to a number) to see if it is within business hours (9:30am to 9:30pm)
-  if (currentTime > 930 && currentTime < 2130) {
+  // console.log(currentTime, typeof currentTime);
+
+  // Compare the current time (converted to a number) to see if it is within business hours (10:30am to 9:30pm)
+  if (currentTime > 1030 && currentTime < 2130) {
     return next();
   }
   next({
