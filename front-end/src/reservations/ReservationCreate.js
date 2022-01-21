@@ -32,8 +32,8 @@ export default function ReservationCreate() {
     createReservation(reservation).then(() => {
       history
         .push(`/dashboard/date?date=${reservation.reservation_date}`)
-        .catch(setError);
-    });
+      })
+      .catch(setError);
   }
 
   function changeHandler({ target: { name, value } }) {
