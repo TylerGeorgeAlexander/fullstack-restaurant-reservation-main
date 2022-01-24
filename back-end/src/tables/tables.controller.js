@@ -20,9 +20,28 @@ async function create(req, res) {
   });
 }
 
+async function update(req, res) {
+    const updatedTable = {
+      ...res.locals.table,
+      ...req.body.data,
+      review_id: res.locals.table.table_id,
+    };
+    const data = await service.update(updatedTable);
+    res.json({ data });
+  }
+
 /**
  * Start of Middleware
  */
+
+ async function tableIdExists(req, res, next) {
+    const tableId = await service.read(req.params.table_id);
+    if (tableId) {
+      res.locals.tableId = tableId;
+      return next();
+    }
+    return next({ status: 404, message: `Table cannot be found.` });
+  }
 
 function hasData(req, res, next) {
   if (req.body.data) {
@@ -54,4 +73,5 @@ function hasCapacity(req, res, next) {
 module.exports = {
   create: [hasData, hasTableName, hasCapacity, asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
+  update: [hasData, tableIdExists, asyncErrorBoundary(update)]
 };
