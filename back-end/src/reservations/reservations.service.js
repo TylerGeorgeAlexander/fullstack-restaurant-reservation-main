@@ -14,7 +14,15 @@ async function list(reservation_date) {
     .where({ reservation_date });
 }
 
+async function getReservationById(reservation_id){
+  return knex("reservations")
+  .select("*")
+  .where({ reservation_id })
+  .first(); 
+}
+
 module.exports = {
   create,
   list,
+  getReservationById,
 };
