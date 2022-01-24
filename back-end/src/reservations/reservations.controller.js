@@ -20,9 +20,40 @@ async function create(req, res) {
   });
 }
 
+function read(req, res) {
+  const { reservation } = res.locals;
+  res.json({ data: reservation });
+}
+
 /**
  * Start of Middleware
  */
+
+function hasReservationIdParams(req, res, next) {
+  const { reservation_Id } = req.params;
+  if (!reservation_Id) {
+    return next({
+      status: 404,
+      message: `The following 'reservation_id' could not be found: ${reservation_Id}`,
+    });
+  }
+  res.locals.reservation_Id = reservation_Id;
+  next();
+}
+
+async function reservationExists(req, res, next) {
+  const { reservation_Id } = res.locals;
+  const reservation = await service.getReservationById(reservation_Id);
+
+  if (!reservation) {
+    return next({
+      status: 404,
+      message: `The following reservation could not be found: ${reservation_Id}.`,
+    });
+  }
+  res.locals.reservation = reservation;
+  next();
+}
 
 function hasData(req, res, next) {
   if (req.body.data) {
@@ -156,4 +187,5 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   list: asyncErrorBoundary(list),
+  read: [hasReservationIdParams, reservationExists, asyncErrorBoundary(read)],
 };
