@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { useHistory } from "react-router-dom";
+import ReservationsTable from "./ReservationsTable";
+import TablesTable from "./TablesTable";
 
 import { previous, next } from "../utils/date-time";
 import { todaysDayDate } from "../utils/formatted-dates";
@@ -12,9 +14,13 @@ import { todaysDayDate } from "../utils/formatted-dates";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
+  const [tables, setTables] = useState([]);
+
   const [reservationsError, setReservationsError] = useState(null);
+  const [tablesError, setTablesError] = useState(null);
 
   const history = useHistory();
 
@@ -26,6 +32,9 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    listTables({ date }, abortController.signal)
+      .then(setTables)
+      .catch(setTablesError);
     return () => abortController.abort();
   }
 
@@ -34,17 +43,29 @@ function Dashboard({ date }) {
     // console.log(today);
     history.push(`/dashboard/date?date=${today}`);
   }
-  function clickPreviousDayHandler() {
+
+  async function clickPreviousDayHandler() {
     const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get("date");
+    let myParam = urlParams.get("date");
+
+    // condition if there is no Params
+    if (myParam === null) {
+      myParam = todaysDayDate();
+    }
 
     let prevDay = previous(myParam);
     // console.log(prevDay);
     history.push(`/dashboard/date?date=${prevDay}`);
   }
-  function clickNextDayHandler() {
+
+  async function clickNextDayHandler() {
     const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get("date");
+    let myParam = urlParams.get("date");
+
+    // condition if there is no Params
+    if (myParam === null) {
+      myParam = todaysDayDate();
+    }
 
     let nextDay = next(myParam);
     // console.log(nextDay);
@@ -55,10 +76,10 @@ function Dashboard({ date }) {
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col col-1 m-2">
           <button
             type="button"
             className="btn btn-primary"
@@ -67,7 +88,7 @@ function Dashboard({ date }) {
             Previous
           </button>
         </div>
-        <div className="col">
+        <div className="col col-1 m-2">
           <button
             type="button"
             className="btn btn-primary"
@@ -76,7 +97,7 @@ function Dashboard({ date }) {
             Today
           </button>
         </div>
-        <div className="col">
+        <div className="col col-1 m-2">
           <button
             type="button"
             className="btn btn-primary"
@@ -86,8 +107,9 @@ function Dashboard({ date }) {
           </button>
         </div>
       </div>
-      <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+      <ErrorAlert error={reservationsError || tablesError} />
+      <ReservationsTable reservations={reservations} />
+      <TablesTable tables={tables} />
     </main>
   );
 }
