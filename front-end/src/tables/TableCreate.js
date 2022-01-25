@@ -26,7 +26,7 @@ export default function TableCreate() {
     // console.log(table)
     createTable(table)
       .then(() => {
-        history.push(`/dashboard/date?date=${table.table_id}`);
+        history.push(`/dashboard`);
       })
       .catch(setError);
   }
