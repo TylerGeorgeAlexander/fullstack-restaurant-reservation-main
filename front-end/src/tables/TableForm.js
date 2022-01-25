@@ -19,6 +19,7 @@ export default function ReservationForm({
           type="text"
           onChange={changeHandler}
           required
+          minLength="2"
           value={table.table_name}
         />
         <p>Capacity</p>
@@ -27,6 +28,7 @@ export default function ReservationForm({
           type="number"
           onChange={changeNumberHandler}
           required
+          min="1"
           value={table.capacity}
         />
         <div className="row">
