@@ -17,7 +17,7 @@ export default function TableCreate() {
   function cancelHandler(event) {
     // console.log("cancel test");
     event.preventDefault();
-    history.push("/");
+    history.go(-1);
   }
 
   function submitHandler(event) {
