@@ -5,6 +5,7 @@ import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import ReservationCreate from "../reservations/ReservationCreate";
+import SeatSelect from "../reservations/SeatSelect";
 import TableCreate from "../tables/TableCreate";
 import useQuery from "../utils/useQuery";
 
@@ -22,22 +23,25 @@ function Routes() {
 
   return (
     <Switch>
-      <Route exact={true} path="/">
+      <Route exact path="/">
         <Redirect to={`/dashboard`} />
       </Route>
-      <Route exact={true} path="/reservations">
+      <Route exact path="/reservations">
         <Redirect to={`/dashboard`} />
       </Route>
-      <Route path="/reservations/new">
+      <Route exact path="/reservations/new">
         <ReservationCreate />
+      </Route>
+      <Route path="/reservations/:reservation_id/seat">
+        <SeatSelect />
       </Route>
       <Route exact path="/dashboard">
         <Dashboard date={date || today()} />
       </Route>
       <Route path="/dashboard/:date">
-        <Dashboard date={date || today()} />
+        <Dashboard exact date={date || today()} />
       </Route>
-      <Route exact={true} path="/tables/new">
+      <Route exact path="/tables/new">
         <TableCreate />
       </Route>
       <Route>
