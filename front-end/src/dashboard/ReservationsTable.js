@@ -17,16 +17,29 @@ export default function ReservationsTable({ reservations }) {
       <tbody>
         {reservations.map((reservation) => {
           return (
-            <tr>
-              <th scope="row">{reservation.reservation_id}</th>
+            <tr key={reservation.reservation_id}>
+              <th key={reservation.reservation_id} scope="row">
+                {reservation.reservation_id}
+              </th>
               <td>{reservation.first_name}</td>
               <td>{reservation.last_name}</td>
               <td>{reservation.mobile_number}</td>
               <td>{reservation.reservation_date}</td>
               <td>{reservation.reservation_time}</td>
               <td>{reservation.people}</td>
-              <td>{!reservation.status?"booked":"seated"}</td>
-              <td>{reservation.status || <button>Seat</button>}</td>
+              <td>{!reservation.status ? "booked" : "seated"}</td>
+              <td>
+                {reservation.status || (
+                  <button type="button" className="btn btn-primary">
+                    <a
+                      href={`/reservations/${reservation.reservation_id}/seat`}
+                      style={{ textDecoration: "none", color: "white" }}
+                    >
+                      Seat ID {reservation.reservation_id}
+                    </a>
+                  </button>
+                )}
+              </td>
             </tr>
           );
         })}

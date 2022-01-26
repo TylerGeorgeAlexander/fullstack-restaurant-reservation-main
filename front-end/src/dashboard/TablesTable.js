@@ -13,18 +13,14 @@ export default function TablesTable({ tables }) {
       <tbody>
         {tables.map((table) => {
           return (
-            <tr>
-              <th scope="row">{table.table_id}</th>
+            <tr key={table.table_id}>
+              <th key={table.table_id} scope="row">
+                {table.table_id}
+              </th>
               <td>{table.table_name}</td>
               <td>{table.capacity}</td>
-              <td>{table.reservation_id || "Free"}</td>
-              <td>
-                {!table.reservation_id || (
-                  <button>
-                    Finish
-                  </button>
-                )}
-              </td>
+              <td>{table.reservation_id ? "Occupied" : "Free"}</td>
+              <td>{!table.reservation_id || <button>Finish</button>}</td>
             </tr>
           );
         })}
