@@ -25,6 +25,7 @@ function read(req, res) {
   res.json({ data: reservation });
 }
 
+
 /**
  * Start of Middleware
  */
