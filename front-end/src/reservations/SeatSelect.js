@@ -60,7 +60,7 @@ export default function SeatSelect() {
           {reservation.last_name} on {reservation.reservation_date} at{" "}
           {reservation.reservation_time} for {reservation.people}
         </h4>
-        <select className="table_id" id="locale" onChange={changeHandler}>
+        <select name="table_id" id="locale" onChange={changeHandler}>
           <option>Select a table</option>
           {tables.map((table) => {
             return (
