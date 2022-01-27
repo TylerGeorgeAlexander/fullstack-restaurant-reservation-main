@@ -26,10 +26,18 @@ async function update({ table_id, reservation_id }) {
     .returning("*");
 }
 
+async function finish(table_id){
+  return knex("tables")
+  .where({ table_id: table_id })
+  .update({ reservation_id: null })
+  .returning("*");
+}
+
 module.exports = {
   create,
   read,
   list,
   readReservation,
   update,
+  finish,
 };
