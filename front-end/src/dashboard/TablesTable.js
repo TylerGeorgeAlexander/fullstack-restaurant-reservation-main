@@ -1,4 +1,21 @@
+import React, { useEffect, useState } from "react";
+import { finishReservation } from "../utils/api";
+import { useParams, useHistory } from "react-router-dom";
+
 export default function TablesTable({ tables }) {
+  const history = useHistory();
+  const [error, setError] = useState(null);
+
+  function finishHandler(event) {
+    event.preventDefault();
+    // console.log(event.target.value)
+    finishReservation(event.target.value)
+      .then(() => {
+        history.go(0)
+      })
+      .catch(setError);
+  }
+
   return (
     <table className="table table-striped table-dark">
       <thead>
@@ -20,7 +37,18 @@ export default function TablesTable({ tables }) {
               <td>{table.table_name}</td>
               <td>{table.capacity}</td>
               <td>{table.reservation_id ? "Occupied" : "Free"}</td>
-              <td>{!table.reservation_id || <button>Finish</button>}</td>
+              <td>
+                {!table.reservation_id || (
+                  <button
+                    onClick={finishHandler}
+                    className="btn btn-danger"
+                    data-table-id-finish={table.table_id}
+                    value={table.table_id}
+                  >
+                    Finish
+                  </button>
+                )}
+              </td>
             </tr>
           );
         })}
