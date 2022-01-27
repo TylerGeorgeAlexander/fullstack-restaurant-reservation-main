@@ -32,6 +32,13 @@ async function update(req, res) {
   res.json({ data });
 }
 
+async function finish(req, res) {
+  const { table_id } = req.params;
+  const reservation = await service.finish(table_id);
+
+  res.json({ data: reservation });
+}
+
 /**
  * Start of Middleware
  */
@@ -84,41 +91,41 @@ async function reservationIdExists(req, res, next) {
 }
 
 async function sufficientCapacity(req, res, next) {
-    const reservation = res.locals.reservation;
-    const capacity = res.locals.table.capacity
+  const reservation = res.locals.reservation;
+  const capacity = res.locals.table.capacity;
 
-    if (capacity < reservation.people) {
-      return next({
-        status: 400,
-        message: "There are more people than available capacity.",
-      });
-    }
-    next();
+  if (capacity < reservation.people) {
+    return next({
+      status: 400,
+      message: "There are more people than available capacity.",
+    });
+  }
+  next();
 }
 
 async function tableExists(req, res, next) {
-    const { table_id } = req.params;
-    const table = await service.read(table_id);
-    if (!table) {
-      next({
-        status: 404,
-        message: `Table ${table_id} does not exist`,
-      });
-    }
-    res.locals.table = table;
-    next();
+  const { table_id } = req.params;
+  const table = await service.read(table_id);
+  if (!table) {
+    next({
+      status: 404,
+      message: `Table ${table_id} does not exist`,
+    });
   }
+  res.locals.table = table;
+  next();
+}
 
-  function occupiedTable(req, res, next) {
-    const { reservation_id } = res.locals.table;
-    if (reservation_id) {
-      return next({
-        status: 400,
-        message: "Table is occupied.",
-      });
-    }
-    return next();
+function occupiedTable(req, res, next) {
+  const { reservation_id } = res.locals.table;
+  if (reservation_id) {
+    return next({
+      status: 400,
+      message: "Table is occupied.",
+    });
   }
+  return next();
+}
 
 module.exports = {
   create: [hasData, hasTableName, hasCapacity, asyncErrorBoundary(create)],
@@ -132,4 +139,5 @@ module.exports = {
     occupiedTable,
     asyncErrorBoundary(update),
   ],
+  finish,
 };
