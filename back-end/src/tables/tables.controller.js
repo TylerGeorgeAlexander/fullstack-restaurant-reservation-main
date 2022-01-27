@@ -127,6 +127,17 @@ function occupiedTable(req, res, next) {
   return next();
 }
 
+function tableNotOccupied(req, res, next) {
+  const { reservation_id } = res.locals.table;
+  if (!reservation_id) {
+    return next({
+      status: 400,
+      message: "Table is not occupied.",
+    });
+  }
+  return next();
+}
+
 module.exports = {
   create: [hasData, hasTableName, hasCapacity, asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
@@ -139,5 +150,5 @@ module.exports = {
     occupiedTable,
     asyncErrorBoundary(update),
   ],
-  finish,
+  finish: [tableExists, tableNotOccupied, asyncErrorBoundary(finish)],
 };
