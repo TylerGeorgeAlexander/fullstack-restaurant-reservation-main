@@ -6,11 +6,11 @@ import ErrorAlert from "../layout/ErrorAlert";
 
 export default function TablesTable() {
   const history = useHistory();
-  // const [error, setError] = useState(null);
+
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
 
-  useEffect(loadDashboard, [tables]);
+  useEffect(loadDashboard, []);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -30,8 +30,6 @@ export default function TablesTable() {
     ) {
       finishReservation(event.target.value).then(() => history.push("/"));
     }
-    // To remove the error not being displayed react warning, may move to display later
-    // console.log(error);
   }
 
   return (
