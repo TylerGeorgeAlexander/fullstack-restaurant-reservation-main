@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getReservation, listTables, updateTable } from "../utils/api";
+import {
+  getReservation,
+  listTables,
+  updateTable,
+  changeStatus,
+} from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -33,9 +38,9 @@ export default function SeatSelect() {
     history.go(-1);
   }
 
-  function changeHandler({ target: {  value } }) {
+  function changeHandler({ target: { value } }) {
     setTable(() => ({
-     value,
+      value,
     }));
     // console.log(table) maybe race condition
   }
@@ -43,8 +48,13 @@ export default function SeatSelect() {
   function submitHandler(event) {
     // console.log("submit test");
     event.preventDefault();
-    console.log(table.value)
+    console.log(table.value);
     updateTable(table.value, reservation.reservation_id)
+      .then(() => {
+        history.push(`/dashboard/date?date=${reservation.reservation_date}`);
+      })
+      .catch(setError);
+    changeStatus("seated", reservation.reservation_id)
       .then(() => {
         history.push(`/dashboard/date?date=${reservation.reservation_date}`);
       })
@@ -61,7 +71,7 @@ export default function SeatSelect() {
           {reservation.reservation_time} for {reservation.people}
         </h4>
         <select name="table_id" id="locale" onChange={changeHandler}>
-          <option>Select a table</option>
+          <option value="">Select a table</option>
           {tables.map((table) => {
             return (
               <option key={table.table_id} value={table.table_id}>
@@ -77,7 +87,7 @@ export default function SeatSelect() {
         >
           Cancel
         </button>
-        <button type="submit" className="btn btn-primary m-3">
+        <button disabled={!table} type="submit" className="btn btn-primary m-3">
           Submit
         </button>
       </form>
