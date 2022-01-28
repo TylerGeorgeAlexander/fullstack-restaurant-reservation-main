@@ -21,8 +21,16 @@ async function getReservationById(reservation_id){
   .first(); 
 }
 
+function changeStatus(status, reservation_id) {
+  return knex("reservations")
+    .whereRaw(`reservation_id=${reservation_id}`)
+    .update({status})
+    .returning("status")
+}
+
 module.exports = {
   create,
   list,
   getReservationById,
+  changeStatus,
 };
