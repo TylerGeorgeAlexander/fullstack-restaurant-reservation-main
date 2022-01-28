@@ -23,7 +23,11 @@ async function update({ table_id, reservation_id }) {
   return knex("tables")
     .where({ table_id: table_id })
     .update({ reservation_id: reservation_id })
-    .returning("*");
+    .returning("*").then(()=>{
+      return knex("reservations")
+      .where({ reservation_id })
+      .update({ status: "seated" })
+    })
 }
 
 async function finish(table_id){
