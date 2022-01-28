@@ -25,31 +25,38 @@ function read(req, res) {
   res.json({ data: reservation });
 }
 
+async function changeStatus(req, res, next) {
+  const { reservation_id } = req.params;
+  const { status } = req.body.data;
+
+  const newStatus = await service.changeStatus(status, reservation_id);
+  res.status(200).json({ data: { status: newStatus[0] } });
+}
 
 /**
  * Start of Middleware
  */
 
 function hasReservationIdParams(req, res, next) {
-  const { reservation_Id } = req.params;
-  if (!reservation_Id) {
+  const { reservation_id } = req.params;
+  if (!reservation_id) {
     return next({
       status: 404,
-      message: `The following 'reservation_id' could not be found: ${reservation_Id}`,
+      message: `The following 'reservation_id' could not be found: ${reservation_id}`,
     });
   }
-  res.locals.reservation_Id = reservation_Id;
+  res.locals.reservation_id = reservation_id;
   next();
 }
 
 async function reservationExists(req, res, next) {
-  const { reservation_Id } = res.locals;
-  const reservation = await service.getReservationById(reservation_Id);
+  const { reservation_id } = res.locals;
+  const reservation = await service.getReservationById(reservation_id);
 
   if (!reservation) {
     return next({
       status: 404,
-      message: `The following reservation could not be found: ${reservation_Id}.`,
+      message: `The following reservation could not be found: ${reservation_id}.`,
     });
   }
   res.locals.reservation = reservation;
@@ -189,4 +196,5 @@ module.exports = {
   ],
   list: asyncErrorBoundary(list),
   read: [hasReservationIdParams, reservationExists, asyncErrorBoundary(read)],
+  changeStatus: [asyncErrorBoundary(changeStatus)],
 };
