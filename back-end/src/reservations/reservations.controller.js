@@ -6,7 +6,13 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
  */
 async function list(req, res) {
   const { date } = req.query;
-  const data = await service.list(date);
+  const { mobile_number } = req.query;
+  let data;
+  if (date) {
+    data = await service.list(date);
+  } else if (mobile_number) {
+    data = await service.search(mobile_number);
+  }
   res.json({
     data,
   });
@@ -176,8 +182,40 @@ function hoursOpen(req, res, next) {
   }
   next({
     status: 400,
-    message: "Reservation times must be between 9:30am to 9:30pm",
+    message: "Reservation times must be between 10:30am to 9:30pm",
   });
+}
+
+function statusSeated(req, res, next) {
+  if (req.body.data.status === "seated") {
+    next({ status: 400, message: "status is 'seated'." });
+  }
+  return next();
+}
+
+function statusFinished(req, res, next) {
+  if (req.body.data.status === "finished") {
+    next({ status: 400, message: "status is 'finished'." });
+  }
+  return next();
+}
+
+function statusUnknown(req, res, next) {
+  if (
+    req.body.data.status === "finished" ||
+    req.body.data.status === "seated" ||
+    req.body.data.status === "booked"
+  ) {
+    return next();
+  }
+  next({ status: 400, message: "status is 'unknown'." });
+}
+
+function statusFinishedUpdate(req, res, next) {
+  if (res.locals.reservation.status === "finished") {
+    next({ status: 400, message: "a finished reservation cannot be updated" });
+  }
+  return next();
 }
 
 module.exports = {
@@ -192,9 +230,17 @@ module.exports = {
     closedTuesday,
     hasPastDate,
     hoursOpen,
+    statusSeated,
+    statusFinished,
     asyncErrorBoundary(create),
   ],
   list: asyncErrorBoundary(list),
   read: [hasReservationIdParams, reservationExists, asyncErrorBoundary(read)],
-  changeStatus: [asyncErrorBoundary(changeStatus)],
+  changeStatus: [
+    hasReservationIdParams,
+    reservationExists,
+    statusFinishedUpdate,
+    statusUnknown,
+    asyncErrorBoundary(changeStatus),
+  ],
 };
