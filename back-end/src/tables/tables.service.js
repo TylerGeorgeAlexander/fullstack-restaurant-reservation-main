@@ -8,8 +8,8 @@ function create(newTable) {
 }
 
 function read(tableId) {
-    return knex("tables").select("*").where({ table_id: tableId }).first();
-  }
+  return knex("tables").select("*").where({ table_id: tableId }).first();
+}
 
 function readReservation(reservationId) {
   return knex("reservations").where({ reservation_id: reservationId }).first();
@@ -23,18 +23,24 @@ async function update({ table_id, reservation_id }) {
   return knex("tables")
     .where({ table_id: table_id })
     .update({ reservation_id: reservation_id })
-    .returning("*").then(()=>{
+    .returning("*")
+    .then(() => {
       return knex("reservations")
-      .where({ reservation_id })
-      .update({ status: "seated" })
-    })
+        .where({ reservation_id })
+        .update({ status: "seated" });
+    });
 }
 
-async function finish(table_id){
+async function finish(table_id, reservation_id) {
   return knex("tables")
-  .where({ table_id: table_id })
-  .update({ reservation_id: null })
-  .returning("*");
+    .where({ table_id: table_id })
+    .update({ reservation_id: null })
+    .returning("*")
+    .then(() => {
+      return knex("reservations")
+        .where({ reservation_id })
+        .update({ status: "finished" });
+    });
 }
 
 module.exports = {
