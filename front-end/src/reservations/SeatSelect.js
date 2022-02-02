@@ -51,23 +51,25 @@ export default function SeatSelect() {
     console.log(table.value);
     updateTable(table.value, reservation.reservation_id)
       .then(() => {
-        history.push(`/dashboard/date?date=${reservation.reservation_date}`);
+        history.push(`/dashboard/date?date=${reservation.reservation_date.slice(0,10)}`);
       })
       .catch(setError);
-    changeStatus("seated", reservation.reservation_id)
-      .then(() => {
-        history.push(`/dashboard/date?date=${reservation.reservation_date}`);
-      })
-      .catch(setError);
+    // changeStatus("seated", reservation.reservation_id)
+    //   .then(() => {
+    //     history.push(`/dashboard/date?date=${reservation.reservation_date.slice(0,10)}`);
+    //   })
+    //   .catch(setError);
   }
-
+if(!reservation.reservation_date){
+  return <h2>Loading..</h2>
+}
   return (
     <div>
       <form onSubmit={submitHandler}>
         <h2>Seat Reservation</h2>
         <h4>
           {reservation.reservation_id} - {reservation.first_name}{" "}
-          {reservation.last_name} on {reservation.reservation_date} at{" "}
+          {reservation.last_name} on {reservation.reservation_date.slice(0,10)} at{" "}
           {reservation.reservation_time} for {reservation.people}
         </h4>
         <select name="table_id" id="locale" onChange={changeHandler}>
