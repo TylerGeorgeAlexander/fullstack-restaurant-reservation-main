@@ -34,9 +34,11 @@ async function update(req, res) {
 
 async function finish(req, res) {
   const { table_id } = req.params;
-  const reservation = await service.finish(table_id);
+  const { reservation_id } = res.locals.table;
 
-  res.json({ data: reservation });
+  const reservation = await service.finish(table_id, reservation_id);
+
+  res.status(200).json({ data: reservation });
 }
 
 /**
@@ -138,6 +140,16 @@ function tableNotOccupied(req, res, next) {
   return next();
 }
 
+function statusNotBooked(req, res, next) {
+  if (res.locals.reservation.status !== "booked") {
+    next({
+      status: 400,
+      message: `reservations with a status of: ${res.locals.reservation.status} cannot be seated.`,
+    });
+  }
+  return next();
+}
+
 module.exports = {
   create: [hasData, hasTableName, hasCapacity, asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
@@ -147,6 +159,7 @@ module.exports = {
     hasReservationId,
     reservationIdExists,
     sufficientCapacity,
+    statusNotBooked,
     occupiedTable,
     asyncErrorBoundary(update),
   ],
