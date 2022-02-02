@@ -18,7 +18,7 @@ import useQuery from "../utils/useQuery";
  */
 
 function Routes() {
-  const date = useQuery().get("date");
+  const date = useQuery().get("date")
   // const date = today();
 
   return (
