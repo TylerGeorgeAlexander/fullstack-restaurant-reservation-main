@@ -32,7 +32,7 @@ export default function ReservationCreate() {
     // console.log(reservation)
     createReservation(reservation).then(() => {
       history
-        .push(`/dashboard/date?date=${reservation.reservation_date}`)
+        .push(`/dashboard/date?date=${reservation.reservation_date.slice(0,10)}`)
       })
       .catch(setError);
   }
