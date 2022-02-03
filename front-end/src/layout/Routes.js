@@ -5,6 +5,7 @@ import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import ReservationCreate from "../reservations/ReservationCreate";
+import ReservationSearch from "../reservations/ReservationSearch";
 import SeatSelect from "../reservations/SeatSelect";
 import TableCreate from "../tables/TableCreate";
 import useQuery from "../utils/useQuery";
@@ -18,7 +19,7 @@ import useQuery from "../utils/useQuery";
  */
 
 function Routes() {
-  const date = useQuery().get("date")
+  const date = useQuery().get("date");
   // const date = today();
 
   return (
@@ -43,6 +44,9 @@ function Routes() {
       </Route>
       <Route exact path="/tables/new">
         <TableCreate />
+      </Route>
+      <Route exact path="/search">
+        <ReservationSearch />
       </Route>
       <Route>
         <NotFound />
