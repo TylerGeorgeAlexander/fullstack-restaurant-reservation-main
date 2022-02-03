@@ -20,6 +20,17 @@ async function getReservationById(reservation_id) {
   return knex("reservations").select("*").where({ reservation_id }).first();
 }
 
+async function read(reservation_id) {
+  return knex("reservations").where({ reservation_id }).first();
+}
+
+async function update(reservation) {
+  return knex("reservations")
+    .where({ reservation_id: reservation.reservation_id })
+    .update(reservation, "*")
+    .then(() => read(reservation.reservation_id));
+}
+
 function changeStatus(status, reservation_id) {
   return knex("reservations")
     .whereRaw(`reservation_id=${reservation_id}`)
@@ -42,4 +53,6 @@ module.exports = {
   getReservationById,
   changeStatus,
   search,
+  read,
+  update,
 };
