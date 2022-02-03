@@ -39,6 +39,16 @@ async function changeStatus(req, res, next) {
   res.status(200).json({ data: { status: newStatus[0] } });
 }
 
+async function update(req, res) {
+  const updatedReservation = {
+    ...res.locals.reservation,
+    ...req.body.data,
+    reservation_id: res.locals.reservation.reservation_id,
+  };
+  const data = await service.update(updatedReservation);
+  res.json({ data });
+}
+
 /**
  * Start of Middleware
  */
@@ -204,6 +214,7 @@ function statusUnknown(req, res, next) {
   if (
     req.body.data.status === "finished" ||
     req.body.data.status === "seated" ||
+    req.body.data.status === "cancelled" ||
     req.body.data.status === "booked"
   ) {
     return next();
@@ -242,5 +253,17 @@ module.exports = {
     statusFinishedUpdate,
     statusUnknown,
     asyncErrorBoundary(changeStatus),
+  ],
+  update: [
+    hasReservationIdParams,
+    reservationExists,
+    hasData,
+    hasFirstName,
+    hasLastName,
+    hasMobilePhone,
+    hasReservationDate,
+    hasReservationTime,
+    hasPeople,
+    asyncErrorBoundary(update),
   ],
 };
