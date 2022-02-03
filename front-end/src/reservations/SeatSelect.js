@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getReservation,
-  listTables,
-  updateTable,
-  changeStatus,
-} from "../utils/api";
+import { getReservation, listTables, updateTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -51,7 +46,9 @@ export default function SeatSelect() {
     console.log(table.value);
     updateTable(table.value, reservation.reservation_id)
       .then(() => {
-        history.push(`/dashboard/date?date=${reservation.reservation_date.slice(0,10)}`);
+        history.push(
+          `/dashboard/date?date=${reservation.reservation_date.slice(0, 10)}`
+        );
       })
       .catch(setError);
     // changeStatus("seated", reservation.reservation_id)
@@ -60,17 +57,17 @@ export default function SeatSelect() {
     //   })
     //   .catch(setError);
   }
-if(!reservation.reservation_date){
-  return <h2>Loading..</h2>
-}
+  if (!reservation.reservation_date) {
+    return <h2>Loading..</h2>;
+  }
   return (
     <div>
       <form onSubmit={submitHandler}>
         <h2>Seat Reservation</h2>
         <h4>
           {reservation.reservation_id} - {reservation.first_name}{" "}
-          {reservation.last_name} on {reservation.reservation_date.slice(0,10)} at{" "}
-          {reservation.reservation_time} for {reservation.people}
+          {reservation.last_name} on {reservation.reservation_date.slice(0, 10)}{" "}
+          at {reservation.reservation_time} for {reservation.people}
         </h4>
         <select name="table_id" id="locale" onChange={changeHandler}>
           <option value="">Select a table</option>
