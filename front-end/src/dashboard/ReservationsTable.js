@@ -1,8 +1,24 @@
+import { changeStatus } from "../utils/api";
+import { useHistory } from "react-router-dom";
+
 export default function ReservationsTable({ reservations }) {
+  const history = useHistory();
+
   function statusHandler(event) {
-    // changeStatus(event.target.value)
-    console.log(event.target.value);
+    // console.log("statusHandler", event.target.value);
+    event.preventDefault();
+    
+    if (
+      window.confirm(
+        "Do you want to cancel this reservation? This cannot be undone."
+      )
+    ) {
+      changeStatus("cancelled", event.target.value).then(() =>
+        history.push("/")
+      );
+    }
   }
+
   return (
     <table className="table table-striped table-dark">
       <thead>
@@ -36,16 +52,35 @@ export default function ReservationsTable({ reservations }) {
               </td>
               <td>
                 {reservation.status === "booked" && (
-                  <button type="button" className="btn btn-primary">
-                    <a
+                  <div>
+                    <button type="button" className="btn btn-primary">
+                      <a
+                        value={reservation.reservation_id}
+                        href={`/reservations/${reservation.reservation_id}/seat`}
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
+                        Seat
+                      </a>
+                    </button>
+                    <button type="button" className="btn btn-primary">
+                      <a
+                        value={reservation.reservation_id}
+                        href={`/reservations/${reservation.reservation_id}/edit`}
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
+                        Edit
+                      </a>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
                       value={reservation.reservation_id}
                       onClick={statusHandler}
-                      href={`/reservations/${reservation.reservation_id}/seat`}
                       style={{ textDecoration: "none", color: "white" }}
                     >
-                      Seat
-                    </a>
-                  </button>
+                      Cancel
+                    </button>
+                  </div>
                 )}
               </td>
             </tr>
