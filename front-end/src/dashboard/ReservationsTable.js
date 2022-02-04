@@ -7,7 +7,7 @@ export default function ReservationsTable({ reservations }) {
   function statusHandler(event) {
     // console.log("statusHandler", event.target.value);
     event.preventDefault();
-    
+
     if (
       window.confirm(
         "Do you want to cancel this reservation? This cannot be undone."
@@ -72,6 +72,7 @@ export default function ReservationsTable({ reservations }) {
                       </a>
                     </button>
                     <button
+                      data-reservation-id-cancel={reservation.reservation_id}
                       type="button"
                       className="btn btn-primary"
                       value={reservation.reservation_id}
