@@ -77,7 +77,7 @@ function Dashboard({ date }) {
         <div className="col col-1 m-2">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={clickPreviousDayHandler}
           >
             Previous
@@ -86,7 +86,7 @@ function Dashboard({ date }) {
         <div className="col col-1 m-2">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-dark"
             onClick={clickTodayHandler}
           >
             Today
@@ -95,7 +95,7 @@ function Dashboard({ date }) {
         <div className="col col-1 m-2">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={clickNextDayHandler}
           >
             Next
