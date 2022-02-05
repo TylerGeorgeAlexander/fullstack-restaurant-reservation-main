@@ -19,7 +19,7 @@ function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
 
   const [reservationsError, setReservationsError] = useState(null);
- 
+
   const history = useHistory();
 
   useEffect(loadDashboard, [date]);
@@ -49,7 +49,6 @@ function Dashboard({ date }) {
     }
 
     let prevDay = previous(myParam);
-    // console.log(prevDay);
     history.push(`/dashboard/date?date=${prevDay}`);
   }
 
@@ -63,7 +62,6 @@ function Dashboard({ date }) {
     }
 
     let nextDay = next(myParam);
-    // console.log(nextDay);
     history.push(`/dashboard/date?date=${nextDay}`);
   }
 
@@ -102,7 +100,7 @@ function Dashboard({ date }) {
           </button>
         </div>
       </div>
-      <ErrorAlert error={reservationsError } />
+      <ErrorAlert error={reservationsError} />
       <ReservationsTable reservations={reservations} />
       <TablesTable />
     </main>
