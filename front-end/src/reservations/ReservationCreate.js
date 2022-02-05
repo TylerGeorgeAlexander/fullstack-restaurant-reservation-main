@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ReservationForm from "./ReservationForm";
 import { useHistory } from "react-router-dom";
-// import { today } from "../utils/date-time";
 import { createReservation } from "../utils/api";
 
 export default function ReservationCreate() {
@@ -12,7 +11,7 @@ export default function ReservationCreate() {
     reservation_date: "",
     reservation_time: "",
     people: 1,
-    status: "booked"
+    status: "booked",
   };
 
   const [reservation, setReservation] = useState(initialState);
@@ -21,18 +20,17 @@ export default function ReservationCreate() {
   const history = useHistory();
 
   function cancelHandler(event) {
-    // console.log("cancel test");
     event.preventDefault();
     history.push("/");
   }
 
   function submitHandler(event) {
-    // console.log("submit test");
     event.preventDefault();
-    // console.log(reservation)
-    createReservation(reservation).then(() => {
-      history
-        .push(`/dashboard/date?date=${reservation.reservation_date.slice(0,10)}`)
+    createReservation(reservation)
+      .then(() => {
+        history.push(
+          `/dashboard/date?date=${reservation.reservation_date.slice(0, 10)}`
+        );
       })
       .catch(setError);
   }

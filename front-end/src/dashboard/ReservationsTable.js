@@ -5,7 +5,6 @@ export default function ReservationsTable({ reservations }) {
   const history = useHistory();
 
   function statusHandler(event) {
-    // console.log("statusHandler", event.target.value);
     event.preventDefault();
 
     if (
@@ -38,7 +37,11 @@ export default function ReservationsTable({ reservations }) {
         {reservations.map((reservation) => {
           return (
             <tr key={reservation.reservation_id}>
-              <th className="col col-1" key={reservation.reservation_id} scope="row">
+              <th
+                className="col col-1"
+                key={reservation.reservation_id}
+                scope="row"
+              >
                 {reservation.reservation_id}
               </th>
               <td className="col col-1">{reservation.last_name}</td>
@@ -47,7 +50,10 @@ export default function ReservationsTable({ reservations }) {
               <td className="col col-1">{reservation.reservation_date}</td>
               <td className="col col-1">{reservation.reservation_time}</td>
               <td className="col col-1">{reservation.people}</td>
-              <td className="col col-1" data-reservation-id-status={reservation.reservation_id}>
+              <td
+                className="col col-1"
+                data-reservation-id-status={reservation.reservation_id}
+              >
                 {reservation.status}
               </td>
               <td className="col col-4">

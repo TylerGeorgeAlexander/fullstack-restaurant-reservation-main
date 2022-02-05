@@ -20,7 +20,6 @@ export default function TablesTable() {
 
   async function finishHandler(event) {
     event.preventDefault();
-    // console.log(event.target.value)
 
     // Pop up window
     if (

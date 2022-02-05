@@ -28,7 +28,6 @@ export default function SeatSelect() {
   }
 
   function cancelHandler(event) {
-    // console.log("cancel test");
     event.preventDefault();
     history.go(-1);
   }
@@ -37,11 +36,9 @@ export default function SeatSelect() {
     setTable(() => ({
       value,
     }));
-    // console.log(table) maybe race condition
   }
 
   function submitHandler(event) {
-    // console.log("submit test");
     event.preventDefault();
     console.log(table.value);
     updateTable(table.value, reservation.reservation_id)
@@ -51,11 +48,6 @@ export default function SeatSelect() {
         );
       })
       .catch(setError);
-    // changeStatus("seated", reservation.reservation_id)
-    //   .then(() => {
-    //     history.push(`/dashboard/date?date=${reservation.reservation_date.slice(0,10)}`);
-    //   })
-    //   .catch(setError);
   }
   if (!reservation.reservation_date) {
     return <h2>Loading..</h2>;

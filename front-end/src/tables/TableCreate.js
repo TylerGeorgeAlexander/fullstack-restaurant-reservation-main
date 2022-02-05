@@ -15,15 +15,12 @@ export default function TableCreate() {
   const history = useHistory();
 
   function cancelHandler(event) {
-    // console.log("cancel test");
     event.preventDefault();
     history.go(-1);
   }
 
   function submitHandler(event) {
-    // console.log("submit test");
     event.preventDefault();
-    // console.log(table)
     createTable(table)
       .then(() => {
         history.push(`/dashboard`);
