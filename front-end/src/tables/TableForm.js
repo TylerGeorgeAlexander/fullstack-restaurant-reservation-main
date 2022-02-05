@@ -12,40 +12,54 @@ export default function ReservationForm({
   return (
     <div>
       <ErrorAlert error={error} />
-      <form onSubmit={submitHandler}>
-        <p>Table Name</p>
-        <input
-          name="table_name"
-          type="text"
-          onChange={changeHandler}
-          required
-          minLength="2"
-          value={table.table_name}
-        />
-        <p>Capacity</p>
-        <input
-          name="capacity"
-          type="number"
-          onChange={changeNumberHandler}
-          required
-          min="1"
-          value={table.capacity}
-        />
-        <div className="row">
-          <button
-            type="button"
-            className="btn btn-warning"
-            onClick={cancelHandler}
-          >
-            Cancel
-          </button>
-        </div>
-        <div className="row">
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </div>
-      </form>
+
+      <main>
+        <h1>Create Table</h1>
+        <form onSubmit={submitHandler}>
+          <fieldset>
+            <div className="row">
+              <div className="form-group col">
+                <label htmlFor="table_name">Table Name</label>
+                <input
+                  onChange={changeHandler}
+                  type="text"
+                  id="table_name"
+                  name="table_name"
+                  className="form-control"
+                  minLength="2"
+                  required=""
+                  placeholder="Table Name"
+                  value={table.table_name}
+                />
+              </div>
+              <div className="form-group col">
+                <label htmlFor="capacity">Capacity</label>
+                <input
+                  onChange={changeNumberHandler}
+                  type="number"
+                  id="capacity"
+                  name="capacity"
+                  className="form-control"
+                  aria-label="Table capacity"
+                  required=""
+                  min="1"
+                  value={table.capacity}
+                />
+              </div>
+            </div>
+            <button
+              onClick={cancelHandler}
+              type="button"
+              className="btn btn-secondary mr-2 cancel"
+            >
+              <span className="oi oi-x"></span> Cancel
+            </button>
+            <button type="submit" className="btn btn-primary">
+              <span className="oi oi-check"></span> Submit
+            </button>
+          </fieldset>
+        </form>
+      </main>
     </div>
   );
 }
