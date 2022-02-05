@@ -25,7 +25,6 @@ export default function ReservationEdit() {
   }
 
   function cancelHandler(event) {
-    // console.log("cancel test");
     event.preventDefault();
     history.go(-1);
   }
