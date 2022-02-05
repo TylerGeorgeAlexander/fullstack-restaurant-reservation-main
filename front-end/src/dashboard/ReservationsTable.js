@@ -38,22 +38,22 @@ export default function ReservationsTable({ reservations }) {
         {reservations.map((reservation) => {
           return (
             <tr key={reservation.reservation_id}>
-              <th key={reservation.reservation_id} scope="row">
+              <th className="col col-1" key={reservation.reservation_id} scope="row">
                 {reservation.reservation_id}
               </th>
-              <td>{reservation.first_name}</td>
-              <td>{reservation.last_name}</td>
-              <td>{reservation.mobile_number}</td>
-              <td>{reservation.reservation_date}</td>
-              <td>{reservation.reservation_time}</td>
-              <td>{reservation.people}</td>
-              <td data-reservation-id-status={reservation.reservation_id}>
+              <td className="col col-1">{reservation.last_name}</td>
+              <td className="col col-1">{reservation.first_name}</td>
+              <td className="col col-1">{reservation.mobile_number}</td>
+              <td className="col col-1">{reservation.reservation_date}</td>
+              <td className="col col-1">{reservation.reservation_time}</td>
+              <td className="col col-1">{reservation.people}</td>
+              <td className="col col-1" data-reservation-id-status={reservation.reservation_id}>
                 {reservation.status}
               </td>
-              <td>
+              <td className="col col-4">
                 {reservation.status === "booked" && (
-                  <div>
-                    <button type="button" className="btn btn-primary">
+                  <div className="row m-1">
+                    <button type="button" className="btn btn-primary col m-1">
                       <a
                         value={reservation.reservation_id}
                         href={`/reservations/${reservation.reservation_id}/seat`}
@@ -62,7 +62,7 @@ export default function ReservationsTable({ reservations }) {
                         Seat
                       </a>
                     </button>
-                    <button type="button" className="btn btn-primary">
+                    <button type="button" className="btn btn-warning col m-1">
                       <a
                         value={reservation.reservation_id}
                         href={`/reservations/${reservation.reservation_id}/edit`}
@@ -74,7 +74,7 @@ export default function ReservationsTable({ reservations }) {
                     <button
                       data-reservation-id-cancel={reservation.reservation_id}
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-secondary col m-1"
                       value={reservation.reservation_id}
                       onClick={statusHandler}
                       style={{ textDecoration: "none", color: "white" }}
