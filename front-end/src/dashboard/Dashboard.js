@@ -35,7 +35,7 @@ function Dashboard({ date }) {
 
   function clickTodayHandler() {
     let today = todaysDayDate();
-    // console.log(today);
+
     history.push(`/dashboard/date?date=${today}`);
   }
 
