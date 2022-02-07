@@ -155,13 +155,13 @@ module.exports = {
   list: asyncErrorBoundary(list),
   update: [
     hasData,
-    tableExists,
+    asyncErrorBoundary(tableExists),
     hasReservationId,
-    reservationIdExists,
-    sufficientCapacity,
+    asyncErrorBoundary(reservationIdExists),
+    asyncErrorBoundary(sufficientCapacity),
     statusNotBooked,
     occupiedTable,
     asyncErrorBoundary(update),
   ],
-  finish: [tableExists, tableNotOccupied, asyncErrorBoundary(finish)],
+  finish: [asyncErrorBoundary(tableExists), tableNotOccupied, asyncErrorBoundary(finish)],
 };
