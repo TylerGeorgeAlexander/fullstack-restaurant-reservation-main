@@ -45,9 +45,16 @@ export default function ReservationEdit() {
   }
 
   async function submitHandler(event) {
+    const abortController = new AbortController();
     event.preventDefault();
-    updateReservation(reservation, reservation_id);
+    updateReservation(
+      reservation,
+      reservation_id,
+      abortController.signal
+    ).catch(setError);
     viewReservationRedirect();
+
+    return () => abortController.abort();
   }
 
   if (!reservation) {

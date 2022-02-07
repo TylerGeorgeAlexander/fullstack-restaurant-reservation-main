@@ -13,8 +13,12 @@ export default function ReservationSearch() {
   }
 
   function submitHandler(event) {
+    const abortController = new AbortController();
     event.preventDefault();
-    listReservations({ mobile_number }).then(setReservations).catch(setError);
+    listReservations({ mobile_number }, abortController.signal)
+      .then(setReservations)
+      .catch(setError);
+    return () => abortController.abort();
   }
 
   return (
