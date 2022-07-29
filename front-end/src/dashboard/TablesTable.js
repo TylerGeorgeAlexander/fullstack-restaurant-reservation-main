@@ -39,8 +39,8 @@ export default function TablesTable() {
             <th scope="col">Table ID #</th>
             <th scope="col">Table Name</th>
             <th scope="col">Capacity</th>
-            <th scope="col">Free?</th>
-            <th scope="col">Button</th>
+            <th scope="col">Available</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>

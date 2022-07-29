@@ -30,7 +30,7 @@ export default function ReservationsTable({ reservations }) {
           <th scope="col">Reservation Time</th>
           <th scope="col"># of People</th>
           <th scope="col">Status</th>
-          <th scope="col">Button</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
